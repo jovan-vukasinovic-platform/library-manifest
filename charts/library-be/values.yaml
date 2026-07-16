@@ -1,0 +1,43 @@
+library-be:
+  replicaCount: 1
+
+  image:
+    repository: 563683519712.dkr.ecr.eu-central-1.amazonaws.com/library/library-be
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  # Spring Boot slusa na 8080 (server.port u application.properties)
+  containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 8080
+    annotations: {}
+
+  probes:
+    enabled: true
+    # Spring Boot actuator probe (management.endpoint.health.probes.enabled=true)
+    readinessPath: /actuator/health/readiness
+    readinessInitialDelaySeconds: 20
+    livenessPath: /actuator/health/liveness
+    livenessInitialDelaySeconds: 45
+    livenessFailureThreshold: 6
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 500Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+
+  config:
+    DB_PORT: "5432"
+    DB_NAME: "library"
+
+  envFromSecret: library-be
+
+  sealedSecret:
+    enabled: false
+    name: library-be
+    encryptedData: {}

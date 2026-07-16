@@ -1,0 +1,34 @@
+library-fe:
+  replicaCount: 1
+
+  image:
+    repository: 563683519712.dkr.ecr.eu-central-1.amazonaws.com/library/library-fe
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  containerPort: 80
+
+  service:
+    type: ClusterIP
+    port: 80
+    annotations: {}
+
+  probes:
+    enabled: true
+    readinessPath: /
+    readinessInitialDelaySeconds: 5
+    livenessPath: /
+    livenessInitialDelaySeconds: 10
+    livenessFailureThreshold: 3
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 250Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+
+  config: {}
+
+  envFromSecret: ""

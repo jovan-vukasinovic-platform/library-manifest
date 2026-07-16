@@ -1,0 +1,13 @@
+{{- $v := index .Values .Chart.Name }}
+{{- if $v.config }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+data:
+  {{- range $key, $value := $v.config }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}

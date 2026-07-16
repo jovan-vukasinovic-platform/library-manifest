@@ -1,0 +1,28 @@
+####################################### Library FE #######################################
+library-fe:
+  image:
+    tag: latest
+    pullPolicy: Always
+
+  # U dev okruzenju FE je javno dostupan preko NLB-a
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+
+####################################### Library BE #######################################
+library-be:
+  image:
+    tag: latest
+    pullPolicy: Always
+
+  config:
+    DB_HOST: "library.cv2iyum6yswq.eu-central-1.rds.amazonaws.com"
+    DB_PORT: "5432"
+    DB_NAME: "librarydb"
+
+  sealedSecret:
+    enabled: true
+    encryptedData:
+      DB_USERNAME: AgAsiQCrl5mjvJx7EF+2Hgczk+KLfw8XXUKgxlZ/ukvgIPzgx2a/GZymT5yWSZsFonJjvT79oqVqD9jBvmxWmYlnmIqOM2xGIoZjfCjjsfa4RTKy/3B7WtzGfcfzv5b3031dbLZkWMWlPu/KbbWSGbuNEOZCzfw7G6M8TGDOS1g9XuRea7hccBK/lo/92SssFOhALh/6kDUlj5oNvCJa3Vl156d4FZO48RvKV6cEBmm0L6Vyl/yyw9QGehOJ76pQZTZNGaEjoBRGMi9jrCz4HKqn5XSAWOPyosQndPoFMJVYwgqXT/schkx2VW/2V5iW7iVIgnz02F8ihCza3PfaieNkTMTCANjmfBIE8a6NBRaddpeAoS99MCojbjkQdBSW7ZmK/UqhVMq6gd/H84vydvaw583J5ZolgMWvwHhGYMnTotprqwP7DE2CPixa/1U71LOyeeb3FlcpI74Urfkpjxoho3LrnXcrCSSNLFCksos4SXVTnX2DHbUATOZyXrqnQd5HWnoT9PO7NGjrE5GvGkCk0lCY9odbh5jvtRXj57eG2H107JHuNL9dmZj1kp0kTkEO+TFxzVLZXHoxIx55Js1RW9wLz7kGmItSBuxRXiYg1be9AiICYBrqEQGrPzMQPnMnn3MlaZPabM2mDeYFCFAAiffyiFNoUMMWhjK4JfLNjakwWDavsRR/g/A/RV809cXVQx3JiA==
+      DB_PASSWORD: AgCh8LE9yoTPpV2fxY8bFsXl97ailTc2Ixsz+G0XUmFQHeQsSoS4dqDcFdQBT/BMf/IxK+5un5Hm21vN41w61vcBrg+rDttpiTr61iVOW30ky2IDMxjZTqCgKi4J17TS0sCa2xRAMZQN0S2Q12z6c2Gw2uzeaT6nnx05UnFSdnj4I+0DB5jzsiYp77qixOWH9xrsDEcnoVu3flQ+2zE7mkhUQnsBGZoW+rPfNxwcW4tfuBES9aSnT2bzB42o+EMJBSxLWMxq36+zPCpXRzKPwew+xbUxUoHOYXk6z5ReWBLam0ptczB/EaFZK2qIUTknO9H5SziUgoyr6QTAQTUCIjumG7IwwYEBjxNS7w94l6F0qrhjop1s0P48wm2gzuQ1CU8KjU7BYYVHRdWeTAVVon/GOMNwiYwavoG1fE+xaP1mwWTfRyPM5avIGmLXBu5bKH9ulXj2FUnsB4gpUGTjtqL1qPD62IrnMpCFmVqQZus9HOUH35FiDxP/ApdtaDN7juvkq39NrwGLM3KE4DgNwLOk+99cvb37LgZj9+m2+EX0GVdUHzv9r+TUxWCIX3SYVMrOZ9bxF6oQMpoUG3FTC1ugADhJxtyFjymh190OmhVcNesHf5tV3R8prCXYlv15gzrIBsbyVG6v1oiy1UMhSukM22rS/nwnvVBhe2cdjquMPlnOavY+gbMtJ+7URQVubq/2u+zDjtL5oGjqVQ==

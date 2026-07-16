@@ -1,0 +1,57 @@
+{{- $v := index .Values .Chart.Name }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+spec:
+  replicas: {{ $v.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Chart.Name }}
+      {{- if $v.config }}
+      annotations:
+        checksum/config: {{ $v.config | toYaml | sha256sum }} # Promena ConfigMape menja checksum anotacije -> Kubernetes uradi rollout podova
+      {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ $v.image.repository }}:{{ $v.image.tag }}"
+          imagePullPolicy: {{ $v.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ $v.containerPort }}
+          {{- if or $v.config $v.envFromSecret }}
+          envFrom:
+            {{- if $v.config }}
+            - configMapRef:
+                name: {{ .Chart.Name }}-config
+            {{- end }}
+            {{- if $v.envFromSecret }}
+            - secretRef:
+                name: {{ $v.envFromSecret }}
+            {{- end }}
+          {{- end }}
+          {{- if $v.probes.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ $v.probes.readinessPath }}
+              port: http
+            initialDelaySeconds: {{ $v.probes.readinessInitialDelaySeconds }}
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: {{ $v.probes.livenessPath }}
+              port: http
+            initialDelaySeconds: {{ $v.probes.livenessInitialDelaySeconds }}
+            periodSeconds: 15
+            failureThreshold: {{ $v.probes.livenessFailureThreshold }}
+          {{- end }}
+          resources:
+            {{- toYaml $v.resources | nindent 12 }}
