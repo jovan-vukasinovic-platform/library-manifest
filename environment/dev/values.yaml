@@ -1,7 +1,7 @@
 ####################################### Library FE #######################################
 library-fe:
   image:
-    tag: latest
+    tag: 20260717_1429
     pullPolicy: Always
 
   # U dev okruzenju FE je javno dostupan preko NLB-a
