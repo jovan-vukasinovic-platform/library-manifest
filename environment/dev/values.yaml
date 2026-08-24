@@ -11,7 +11,7 @@ library-fe:
 ####################################### Library BE #######################################
 library-be:
   image:
-    tag: "20260824_1711"
+    tag: "20260824_2023"
     pullPolicy: IfNotPresent
   config:
     DB_HOST: "library.cv2iyum6yswq.eu-central-1.rds.amazonaws.com"
