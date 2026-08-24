@@ -2,7 +2,7 @@
 library-fe:
   image:
     tag: "20260824_1604"
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   # U dev okruzenju FE je javno dostupan preko NLB-a
   service:
     type: LoadBalancer
@@ -12,7 +12,7 @@ library-fe:
 library-be:
   image:
     tag: latest
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   config:
     DB_HOST: "library.cv2iyum6yswq.eu-central-1.rds.amazonaws.com"
     DB_PORT: "5432"
