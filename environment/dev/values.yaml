@@ -1,7 +1,7 @@
 ####################################### Library FE #######################################
 library-fe:
   image:
-    tag: "20260828_1826"
+    tag: "20260828_1834"
     pullPolicy: IfNotPresent
   # U dev okruzenju FE je javno dostupan preko NLB-a
   service:
